@@ -19,7 +19,7 @@ import numpy as np
 
 class GaussianGridType(str, Enum):
     """高斯网格类型（ECMWF Gaussian Grid）。
-    
+
     支持两种格式：
     - O (Octahedral Reduced): O320, O1280
     - N (Classic Reduced): N160, N320
@@ -61,7 +61,7 @@ class GaussianGridType(str, Enum):
         l = self.latitude_lines
         if y < 0 or y >= 2 * l:
             raise ValueError(f"y 超出范围: y={y}, 期望 0..{2 * l - 1}")
-        
+
         if self.is_octahedral:
             if y < l:
                 return 20 + y * 4
@@ -76,7 +76,7 @@ class GaussianGridType(str, Enum):
         l = self.latitude_lines
         if y < 0 or y > 2 * l:
             raise ValueError(f"y 超出范围: y={y}, 期望 0..{2 * l}")
-        
+
         if y <= l:
             return 2 * y * y + 18 * y
         # 镜像对称

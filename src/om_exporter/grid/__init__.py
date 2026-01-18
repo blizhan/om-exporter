@@ -58,6 +58,7 @@ __all__ = [
 # TypedDict 定义 (用于 JSON 配置解析)
 # ============================================================================
 
+
 class LambertConformalConicParams(TypedDict):
     lambda0: float
     phi0: float
@@ -143,9 +144,11 @@ DomainGridMap = Dict[str, Dict[str, GridSpec]]
 # Projection dataclass
 # ============================================================================
 
+
 @dataclass(frozen=True)
 class LambertConformalConicProjection:
     """兰伯特等角圆锥投影。"""
+
     lambda0: float
     phi0: float
     phi1: float
@@ -156,6 +159,7 @@ class LambertConformalConicProjection:
 @dataclass(frozen=True)
 class RotatedLatLonProjection:
     """旋转经纬度投影。"""
+
     latitude: float
     longitude: float
 
@@ -163,6 +167,7 @@ class RotatedLatLonProjection:
 @dataclass(frozen=True)
 class StereographicProjection:
     """球极平面投影。"""
+
     latitude: float
     longitude: float
     radius: float
@@ -171,6 +176,7 @@ class StereographicProjection:
 @dataclass(frozen=True)
 class LambertAzimuthalEqualAreaProjection:
     """兰伯特等面积方位投影。"""
+
     lambda0: float
     phi1: float
     radius: float
@@ -188,9 +194,11 @@ Projection = Union[
 # Grid dataclass
 # ============================================================================
 
+
 @dataclass(frozen=True)
 class RegularGrid:
     """规则经纬度网格。"""
+
     nx: int
     ny: int
     lat_min: float
@@ -302,6 +310,7 @@ class RegularGrid:
 @dataclass(frozen=True)
 class ProjectionGrid:
     """投影网格。"""
+
     nx: int
     ny: int
     projection: Projection
@@ -316,9 +325,10 @@ class ProjectionGrid:
 @dataclass(frozen=True)
 class GaussianGrid:
     """高斯网格。
-    
+
     直接使用 GaussianGridType 枚举，可访问所有网格操作方法。
     """
+
     grid_type: GaussianGridType
 
     @property

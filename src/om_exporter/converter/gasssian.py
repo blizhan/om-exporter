@@ -13,6 +13,7 @@ from ..grid import GaussianGridType
 @dataclass
 class TargetGrid:
     """目标规则网格（缓存计算结果）。"""
+
     lat_1d: np.ndarray
     lon_1d: np.ndarray
     lats_2d: np.ndarray
@@ -27,21 +28,21 @@ class TargetGrid:
 
 class GaussianToRegularConverter:
     """将高斯网格数据转换为规则经纬度网格。
-    
+
     支持一维和二维数据：
     - 1D: shape (n_points,) -> 输出 (ny, nx)
     - 2D: shape (n_points, n_times) -> 输出 (ny, nx, n_times)
-    
+
     Example:
         converter = GaussianToRegularConverter(GaussianGridType.O1280)
-        
+
         # 预先构建目标网格（可复用）
         target = converter.build_target_grid(
             target_resolution=(0.25, 0.25),
             lat_range=(15.0, 55.0),
             lon_range=(70.0, 140.0),
         )
-        
+
         # 批量转换多个时间步
         # data shape: (n_points, n_times)
         data_out = converter.interpolate(data, target, method="nearest")
@@ -74,6 +75,7 @@ class GaussianToRegularConverter:
         """KDTree（用于最近邻插值，缓存）。"""
         if self._kdtree_cache is None:
             from scipy.spatial import cKDTree
+
             self._kdtree_cache = cKDTree(self.points_src)
         return self._kdtree_cache
 
@@ -192,14 +194,20 @@ class GaussianToRegularConverter:
             result = np.empty((ny, nx, n_times), dtype=np.float64)
             for t in range(n_times):
                 interp = griddata(
-                    self.points_src, data[:, t], target.points_tgt,
-                    method=method, fill_value=fill_value,
+                    self.points_src,
+                    data[:, t],
+                    target.points_tgt,
+                    method=method,
+                    fill_value=fill_value,
                 )
                 result[:, :, t] = interp.reshape(ny, nx)
             return result
 
         interp = griddata(
-            self.points_src, data, target.points_tgt,
-            method=method, fill_value=fill_value,
+            self.points_src,
+            data,
+            target.points_tgt,
+            method=method,
+            fill_value=fill_value,
         )
         return interp.reshape(ny, nx)

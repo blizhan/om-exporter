@@ -2,11 +2,12 @@
 
 from typing import Dict
 
+from .conf.domain import DOMAIN_GRIDS
 from .grid import (
-    Grid,
-    GridSpec,
     GaussianGrid,
     GaussianGridType,
+    Grid,
+    GridSpec,
     LambertAzimuthalEqualAreaProjection,
     LambertConformalConicProjection,
     Projection,
@@ -16,7 +17,6 @@ from .grid import (
     RotatedLatLonProjection,
     StereographicProjection,
 )
-from .conf.domain import DOMAIN_GRIDS
 
 __all__ = [
     "build_grid",
@@ -28,7 +28,7 @@ def build_projection(defn: ProjectionDef) -> Projection:
     """从配置构建投影对象。"""
     projection_type = defn["type"]
     params = defn["params"]
-    
+
     if projection_type == "LambertConformalConicProjection":
         return LambertConformalConicProjection(
             lambda0=params["lambda0"],
@@ -61,7 +61,7 @@ def build_grid(spec: GridSpec) -> Grid:
     """从配置构建网格对象。"""
     grid_type_name = spec["type"]
     params = spec["params"]
-    
+
     if grid_type_name == "RegularGrid":
         return RegularGrid(
             nx=params["nx"],
